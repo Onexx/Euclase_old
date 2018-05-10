@@ -1,4 +1,4 @@
-#include "barcodeprinter.h"
+#include "BarcodePrinter.h"
 #include <QPrinter>
 #include <QFont>
 

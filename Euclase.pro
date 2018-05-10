@@ -26,13 +26,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         MainWindow.cpp \
-    Qt-barcode-master/barcodeprinter.cpp
-        Qt-barcode-master/barcodeprinter.cpp \
+        DragAndDrop/DropScene.cpp \
+        DragAndDrop/DragCircle.cpp \
+        DragAndDrop/DragRect.cpp \
+        ObservableItems/ObservableRect.cpp \
+        BarcodePrinter/BarcodePrinter.cpp \
+    ObservableItems/ObservableCircle.cpp
 
 HEADERS += \
         MainWindow.h \
-        Qt-barcode-master/barcodeprinter.h \
-    MainWindow.h
+        DragAndDrop/DropScene.h \
+        DragAndDrop/DragCircle.h \
+        DragAndDrop/DragRect.h \
+        ObservableItems/ObservableRect.h \
+        BarcodePrinter/BarcodePrinter.h \
+    ObservableItems/ObservableCircle.h
 
 FORMS += \
         MainWindow.ui
