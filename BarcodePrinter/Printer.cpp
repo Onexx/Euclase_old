@@ -1,12 +1,12 @@
-#include "BarcodePrinter.h"
+#include "Printer.h"
 #include <QFont>
 #include <QPrinter>
 #include "Statistics/logs.h"
 
-BarcodePrinter::BarcodePrinter(QObject* parent)
+Printer::Printer(QObject* parent)
     : QObject(parent), printerConfigured(FALSE) {}
 
-QStringList BarcodePrinter::getAvailablePrinters() {
+QStringList Printer::getAvailablePrinters() {
     QStringList availablePrinters;
 
     QPrinterInfo pInfo;
@@ -19,7 +19,7 @@ QStringList BarcodePrinter::getAvailablePrinters() {
     return availablePrinters;
 }
 
-bool BarcodePrinter::configurePrinter(QString printerName) {
+bool Printer::configurePrinter(QString printerName) {
     bool printerAvailable = getAvailablePrinters().contains(printerName);
     if (printerAvailable) {
         mPrinter.setPrinterName(printerName);
@@ -40,41 +40,35 @@ bool BarcodePrinter::configurePrinter(QString printerName) {
     return printerAvailable;
 }
 
-void BarcodePrinter::printBarcode(QString barcodeText, QString name) {
+void Printer::Print(QString id, QString name) {
     if (!printerConfigured) {
         qDebug() << "Printer not configured, abort.";
+        LogPrint("Printer not configured, abort.");
         return;
     }
 
-       qDebug() << "Printing : \"" + barcodeText + "\" ...";
-
-       double MmToDot = 7;  // Printer DPI = 600 => 24 dots per mm
+    double MmToDot = 7;  // Printer DPI = 600 => 24 dots per mm
     QPainter painter(&mPrinter);
-    QRect nameTextRect =
+
+    QRect idTextRect =
         QRect(5 * MmToDot, 10.5 * MmToDot, 67.5 * MmToDot, 10 * MmToDot);
-    QRect barcodeRect =
+    QRect nameTextRect =
         QRect(5 * MmToDot, 21 * MmToDot, 67.5 * MmToDot, 10 * MmToDot);
-    //QRect barcodeTextRect =
-    //    QRect(5 * MmToDot, 31.5 * MmToDot, 67.5 * MmToDot, 5 * MmToDot);
 
     QFont barcodefont = QFont("Code 128", 46, QFont::Normal);
     barcodefont.setLetterSpacing(QFont::AbsoluteSpacing, 0.0);
     painter.setFont(QFont("PT Sans", 10));
+    painter.drawText(idTextRect, Qt::AlignCenter, id);
+
+    painter.setFont(QFont("PT Sans", 10));
     painter.drawText(nameTextRect, Qt::AlignCenter, name);
-    painter.setFont(barcodefont);
-
-    QString arr = encodeBarcode(barcodeText);
-    painter.drawText(barcodeRect, Qt::AlignCenter, arr);
-
-    //painter.setFont(QFont("PT Sans", 10));
-    //painter.drawText(barcodeTextRect, Qt::AlignCenter, barcodeText);
 
     painter.end();
 
     qDebug() << "Printing finished";
 }
 
-void BarcodePrinter::configurePage() {
+void Printer::configurePage() {
     //
     mPrinter.setColorMode(QPrinter::GrayScale);
     mPrinter.setPageSizeMM(QSizeF(80, 40));
@@ -84,7 +78,7 @@ void BarcodePrinter::configurePage() {
     mPrinter.setOrientation(QPrinter::Portrait);
 }
 
-QString BarcodePrinter::encodeBarcode(QString code) {
+QString Printer::encodeBarcode(QString code) {
     QString encoded;
 
     encoded.prepend(
@@ -97,7 +91,7 @@ QString BarcodePrinter::encodeBarcode(QString code) {
     return encoded;
 }
 
-int BarcodePrinter::calculateCheckCharacter(QString code) {
+int Printer::calculateCheckCharacter(QString code) {
     QByteArray encapBarcode(code.toUtf8());  // Convert code to utf8
 
     // Calculate check character
@@ -123,6 +117,6 @@ int BarcodePrinter::calculateCheckCharacter(QString code) {
     return remain;
 }
 
-int BarcodePrinter::codeToChar(int code) { return code + 105; }
+int Printer::codeToChar(int code) { return code + 105; }
 
-int BarcodePrinter::charToCode(int ch) { return ch - 32; }
+int Printer::charToCode(int ch) { return ch - 32; }

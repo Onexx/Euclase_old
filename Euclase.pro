@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui printsupport widgets
+QT += core gui printsupport widgets network
 QMAKE_CXXFLAGS += -std=c++11
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -25,22 +25,47 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        MainWindow.cpp \
         DragAndDrop/DropScene.cpp \
         DragAndDrop/DragCircle.cpp \
         DragAndDrop/DragRect.cpp \
         ObservableItems/ObservableRect.cpp \
         BarcodePrinter/BarcodePrinter.cpp \
-    ObservableItems/ObservableCircle.cpp
+        ObservableItems/ObservableCircle.cpp \
+        Navig/Navig.cpp \
+        Menu.cpp \
+        RButton.cpp \
+        Info/InfoView.cpp \
+        Info/Partners.cpp \
+        Info/Description.cpp \
+        Info/Timetable.cpp \
+    RegForm.cpp \
+    BarcodePrinter/Printer.cpp
 
 HEADERS += \
-        MainWindow.h \
         DragAndDrop/DropScene.h \
         DragAndDrop/DragCircle.h \
         DragAndDrop/DragRect.h \
         ObservableItems/ObservableRect.h \
         BarcodePrinter/BarcodePrinter.h \
-    ObservableItems/ObservableCircle.h
+        ObservableItems/ObservableCircle.h \
+        Statistics/Statistics.h \
+        Navig/Navig.h \
+        Menu.h \
+        RButton.h \
+        Info/InfoView.h \
+        Info/Partners.h \
+        Info/Description.h \
+        Info/Timetable.h \
+        RegForm.h \
+        Statistics/Logs.h \
+    BarcodePrinter/Printer.h
 
 FORMS += \
-        MainWindow.ui
+        Navig/Navig.ui \
+        Menu.ui \
+        RButton.ui \
+        Info/InfoView.ui \
+        Info/Partners.ui \
+        Info/Description.ui \
+        Info/Timetable.ui \
+        RegForm.ui
